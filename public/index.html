@@ -1,103 +1,809 @@
 <!doctype html>
 <html lang="it">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Palma & Michele Online 💗</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;padding:16px;background:#251a42;color:#fff2fb;font-family:system-ui,Arial;display:flex;justify-content:center}
-main{width:min(100%,1000px)}h1{margin:0 0 8px;color:#ffd3e8;font-size:clamp(1.3rem,4vw,2rem)}.sub{margin:0 0 14px;color:#e8c8e9}
-.panel{background:#fff0fa;color:#683568;border:2px solid #ffb5d8;border-radius:16px;padding:14px;margin-bottom:12px}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}input{min-width:0;flex:1;border:2px solid #e9a6d0;border-radius:10px;padding:12px;font:inherit}button{border:0;border-radius:11px;background:#ffcae4;color:#5c2d60;padding:12px 15px;font-weight:850;font-size:1rem;cursor:pointer}button:disabled{opacity:.45}#status{font-weight:750;margin-top:10px;min-height:1.4em}canvas{display:block;width:100%;aspect-ratio:16/9;background:#f8a4c7;border:3px solid #ffd1e8;border-radius:16px}
-.hud{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:10px 0}.tag{background:#fff0fa;color:#713b75;border-radius:10px;padding:8px 12px;font-weight:800}.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}.controls button{min-width:58px;touch-action:none}.note{color:#f3d9ef;font-size:.9rem;line-height:1.5;margin-top:12px}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  padding:16px;
+  background:#251a42;
+  color:#fff2fb;
+  font-family:system-ui,Arial;
+  display:flex;
+  justify-content:center
+}
+main{width:min(100%,1000px)}
+h1{
+  margin:0 0 8px;
+  color:#ffd3e8;
+  font-size:clamp(1.3rem,4vw,2rem)
+}
+.sub{margin:0 0 14px;color:#e8c8e9}
+.panel{
+  background:#fff0fa;
+  color:#683568;
+  border:2px solid #ffb5d8;
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:12px
+}
+.row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center
+}
+input{
+  min-width:0;
+  flex:1;
+  border:2px solid #e9a6d0;
+  border-radius:10px;
+  padding:12px;
+  font:inherit
+}
+button{
+  border:0;
+  border-radius:11px;
+  background:#ffcae4;
+  color:#5c2d60;
+  padding:12px 15px;
+  font-weight:850;
+  font-size:1rem;
+  cursor:pointer
+}
+button:disabled{opacity:.45}
+#status{font-weight:750;margin-top:10px;min-height:1.4em}
+canvas{
+  display:block;
+  width:100%;
+  aspect-ratio:16/9;
+  background:#f8a4c7;
+  border:3px solid #ffd1e8;
+  border-radius:16px
+}
+.hud{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:10px 0
+}
+.tag{
+  background:#fff0fa;
+  color:#713b75;
+  border-radius:10px;
+  padding:8px 12px;
+  font-weight:800
+}
+.controls{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top:10px
+}
+.controls button{
+  min-width:58px;
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none
+}
+.note{
+  color:#f3d9ef;
+  font-size:.9rem;
+  line-height:1.5;
+  margin-top:12px
+}
 </style>
 </head>
-<body><main>
-<h1>💗 Palma & Michele — Insieme, sempre</h1>
-<p class="sub">Un piccolo platform 2D da giocare online in due, anche da dispositivi diversi.</p>
-<section class="panel">
- <div class="row"><input id="name" maxlength="18" placeholder="Il tuo nome (Palma o Michele)" value="Palma"><button id="create">Crea una stanza</button></div>
- <div class="row" style="margin-top:9px"><input id="code" maxlength="5" placeholder="Codice stanza"><button id="join">Entra nella stanza</button></div>
- <div id="status">Crea una stanza e manda il codice all'altra persona.</div>
-</section>
-<div class="hud"><div class="tag">👤 Tu: <span id="role">—</span></div><div class="tag">💗 Cuori: <span id="score">0</span>/10</div><div class="tag">🔗 Catena: insieme!</div></div>
-<canvas id="game" width="960" height="540"></canvas>
-<div class="controls"><button id="left">◀</button><button id="right">▶</button><button id="jump">⬆ SALTA</button></div>
-<div class="note"><b>Computer:</b> A/D o ←/→ per muoverti, W/↑/Spazio per saltare. <b>Telefono:</b> usa i pulsanti. La stanza deve essere ospitata su un server online per poter essere raggiunta da Internet.</div>
+
+<body>
+<main>
+  <h1>💗 Palma & Michele — Insieme, sempre</h1>
+  <p class="sub">
+    Un piccolo platform 2D da giocare online in due,
+    anche da dispositivi diversi.
+  </p>
+
+  <section class="panel">
+    <div class="row">
+      <input id="name" maxlength="18"
+        placeholder="Il tuo nome (Palma o Michele)"
+        value="Palma">
+      <button id="create">Crea una stanza</button>
+    </div>
+
+    <div class="row" style="margin-top:9px">
+      <input id="code" maxlength="5" placeholder="Codice stanza">
+      <button id="join">Entra nella stanza</button>
+    </div>
+
+    <div id="status">
+      Crea una stanza e manda il codice all'altra persona.
+    </div>
+  </section>
+
+  <div class="hud">
+    <div class="tag">👤 Tu: <span id="role">—</span></div>
+    <div class="tag">💗 Cuori: <span id="score">0</span>/10</div>
+    <div class="tag">🔗 Catena: insieme!</div>
+  </div>
+
+  <canvas id="game" width="960" height="540"></canvas>
+
+  <div class="controls">
+    <button id="left">◀</button>
+    <button id="right">▶</button>
+    <button id="jump">⬆ SALTA</button>
+  </div>
+
+  <div class="note">
+    <b>Computer:</b> A/D oppure ←/→ per muoverti.
+    W/↑/Spazio per saltare.
+    <b>Telefono:</b> usa i pulsanti sullo schermo.
+    La stanza deve essere ospitata su un server online.
+  </div>
 </main>
+
 <script src="/socket.io/socket.io.js"></script>
+
 <script>
 (() => {
-const socket=io();
-const canvas=document.querySelector('#game'),ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
-const status=document.querySelector('#status'),roleEl=document.querySelector('#role'),scoreEl=document.querySelector('#score');
-let myRole=null,roomCode=null,players={},keys={},camera=0,score=0,frame=0,connected=false;
-const platforms=[
-{x:0,y:450,w:260,h:90},{x:300,y:450,w:130,h:90},{x:490,y:390,w:130,h:22},
-{x:680,y:330,w:130,h:22},{x:860,y:390,w:150,h:150},{x:1070,y:440,w:150,h:100},
-{x:1260,y:365,w:140,h:22},{x:1460,y:310,w:140,h:22},{x:1660,y:400,w:150,h:140},
-{x:1860,y:350,w:190,h:190},{x:2110,y:420,w:180,h:120}];
-const spikes=[{x:335,y:425,w:55,h:25},{x:1090,y:415,w:70,h:25},{x:1700,y:375,w:65,h:25},{x:2150,y:395,w:70,h:25}];
-const hearts=[{x:150,y:405},{x:350,y:405},{x:405,y:405},{x:530,y:350},{x:590,y:350},{x:720,y:290},{x:780,y:290},{x:1130,y:395},{x:1300,y:325},{x:1510,y:270}];
-const enemies=[{x:740,y:300,min:690,max:790,v:1.3},{x:1750,y:370,min:1680,max:1780,v:-1.3}];
-const goal={x:2200,y:340,w:70,h:80};
-const defaults={palma:{name:'Palma',x:80,y:400,vx:0,vy:0,facing:1,onGround:false,color:'#ff72ad',hair:'#61344c'},michele:{name:'Michele',x:125,y:400,vx:0,vy:0,facing:1,onGround:false,color:'#5e5acb',hair:'#30223c'}};
-function initPlayers(list=[]){for(const role of ['palma','michele']){let found=list.find(p=>p.role===role);players[role]={...defaults[role],...(found||{}),role};}}
+'use strict';
+
+const socket = io();
+
+const canvas = document.querySelector('#game');
+const ctx = canvas.getContext('2d');
+const W = canvas.width;
+const H = canvas.height;
+
+const status = document.querySelector('#status');
+const roleEl = document.querySelector('#role');
+const scoreEl = document.querySelector('#score');
+
+let myRole = null;
+let roomCode = null;
+let players = {};
+let keys = {};
+let camera = 0;
+let score = 0;
+let frame = 0;
+let connected = false;
+
+/* Piattaforme */
+const platforms = [
+  {x:0,y:450,w:260,h:90},
+  {x:300,y:450,w:130,h:90},
+  {x:490,y:390,w:130,h:22},
+  {x:680,y:330,w:130,h:22},
+  {x:860,y:390,w:150,h:150},
+  {x:1070,y:440,w:150,h:100},
+  {x:1260,y:365,w:140,h:22},
+  {x:1460,y:310,w:140,h:22},
+  {x:1660,y:400,w:150,h:140},
+  {x:1860,y:350,w:190,h:190},
+  {x:2110,y:420,w:180,h:120}
+];
+
+/* Ostacoli */
+const spikes = [
+  {x:335,y:425,w:55,h:25},
+  {x:1090,y:415,w:70,h:25},
+  {x:1700,y:375,w:65,h:25},
+  {x:2150,y:395,w:70,h:25}
+];
+
+/* Cuori da raccogliere */
+const hearts = [
+  {x:150,y:405},
+  {x:350,y:405},
+  {x:405,y:405},
+  {x:530,y:350},
+  {x:590,y:350},
+  {x:720,y:290},
+  {x:780,y:290},
+  {x:1130,y:395},
+  {x:1300,y:325},
+  {x:1510,y:270}
+];
+
+/* Nemici */
+const enemies = [
+  {x:740,y:300,min:690,max:790,v:1.3},
+  {x:1750,y:370,min:1680,max:1780,v:-1.3}
+];
+
+/* Traguardo */
+const goal = {x:2200,y:340,w:70,h:80};
+
+/* Personaggi */
+const defaults = {
+  palma:{
+    name:'Palma',
+    x:80,y:400,
+    w:26,h:40,
+    vx:0,vy:0,
+    facing:1,
+    onGround:false,
+    color:'#ff72ad',
+    hair:'#61344c'
+  },
+  michele:{
+    name:'Michele',
+    x:125,y:400,
+    w:26,h:40,
+    vx:0,vy:0,
+    facing:1,
+    onGround:false,
+    color:'#5e5acb',
+    hair:'#30223c'
+  }
+};
+
+function initPlayers(list = []) {
+  for (const role of ['palma','michele']) {
+    const found = list.find(p => p.role === role);
+
+    players[role] = {
+      ...defaults[role],
+      ...(found || {}),
+      role
+    };
+  }
+}
+
+/* Inizializzazione */
 initPlayers();
-document.querySelector('#create').onclick=()=>{const name=document.querySelector('#name').value.trim()||'Palma';socket.emit('createRoom',{name},handleRoom);};
-document.querySelector('#join').onclick=()=>{const name=document.querySelector('#name').value.trim()||'Michele',code=document.querySelector('#code').value.trim().toUpperCase();if(!code){status.textContent='Inserisci il codice della stanza.';return;}socket.emit('joinRoom',{name,code},handleRoom);};
-function handleRoom(r){if(!r.ok){status.textContent=r.error;return;}myRole=r.role;roomCode=r.code;initPlayers(r.players);roleEl.textContent=myRole==='palma'?'Palma':'Michele';document.querySelector('#code').value=r.code;status.textContent=`Stanza ${r.code} creata. ${r.role==='palma'?'Invia il codice a Michele!':'Sei entrato!'} In attesa dell’altro giocatore…`;}
-socket.on('connect',()=>{connected=true;});
-socket.on('disconnect',()=>{connected=false;status.textContent='Connessione persa. Ricarica la pagina quando la rete torna disponibile.';});
-socket.on('roomState',d=>{if(d.code!==roomCode&&roomCode)return;roomCode=d.code;initPlayers(d.players);if(d.started)status.textContent=`Stanza ${d.code}: siete connessi! Giocate insieme 💕`;else if(d.notice)status.textContent=d.notice;});
-socket.on('remoteUpdate',d=>{for(const role of ['palma','michele'])if(players[role].id===d.id)Object.assign(players[role],d);});
-socket.on('gameEvent',d=>{if(d.type==='heart'){score=Math.max(score,d.score||0);scoreEl.textContent=score;}if(d.type==='win')status.textContent='Avete raggiunto il castello insieme! 💖';if(d.type==='hurt')status.textContent='Attenzione agli ostacoli!';});
-function setButton(id,k){let el=document.getElementById(id);el.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true;});for(const ev of ['pointerup','pointerleave','pointercancel'])el.addEventListener(ev,e=>{e.preventDefault();keys[k]=false;});}
-setButton('left','left');setButton('right','right');
-document.querySelector('#jump').addEventListener('pointerdown',e=>{e.preventDefault();jump();});
-window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['arrowleft','arrowright','arrowup',' '].includes(k))e.preventDefault();keys[k]=true;if(['arrowup','w',' '].includes(k)&&!e.repeat)jump();});
-window.addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-function jump(){if(!myRole)return;const p=players[myRole];if(p&&p.onGround){p.vy=-12.5;p.onGround=false;}}
-function rect(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;}
-function update(){
-frame++;
-if(!myRole||!players[myRole])return;
-const p=players[myRole],left=keys.left||keys.arrowleft||keys.a,right=keys.right||keys.arrowright||keys.d;
-p.vx=(right?1:0-(left?1:0))*3.2;
-p.vx=((right?1:0)-(left?1:0))*3.2;p.x=Math.max(0,p.x+p.vx);p.vy+=.62;const oldY=p.y;p.y+=p.vy;p.onGround=false;
-for(const pl of platforms)if(p.x+p.w>pl.x&&p.x<pl.x+pl.w&&oldY+p.h<=pl.y+5&&p.y+p.h>=pl.y&&p.vy>=0){p.y=pl.y-p.h;p.vy=0;p.onGround=true;}
-if(p.y>H+50){p.x=Math.max(30,p.x-120);p.y=350;p.vy=0;socket.emit('gameEvent',{type:'hurt'});}
-for(const s of spikes)if(rect({x:p.x+4,y:p.y+p.h-9,w:p.w-8,h:9},s)){p.x=Math.max(30,p.x-100);p.y=350;p.vy=0;socket.emit('gameEvent',{type:'hurt'});break;}
-for(const e of enemies){e.x+=e.v;if(e.x<e.min||e.x>e.max)e.v*=-1;if(rect(p,{x:e.x,y:e.y,w:30,h:28})){p.x=Math.max(30,p.x-100);p.y=350;p.vy=0;socket.emit('gameEvent',{type:'hurt'});}}
-hearts.forEach((h,i)=>{if(!h.taken&&rect(p,{x:h.x-10,y:h.y-10,w:25,h:25})){h.taken=true;score++;scoreEl.textContent=score;socket.emit('gameEvent',{type:'heart',score});}});
-if(rect(p,goal))socket.emit('gameEvent',{type:'win'});
-p.facing=p.vx<0?-1:1;
-socket.emit('playerUpdate',{x:p.x,y:p.y,vx:p.vx,vy:p.vy,facing:p.facing,onGround:p.onGround});
-camera=Math.max(0,Math.min(1400,p.x-260));
+
+/* Creazione stanza */
+document.querySelector('#create').onclick = () => {
+  const name =
+    document.querySelector('#name').value.trim() || 'Palma';
+
+  socket.emit('createRoom', {name}, handleRoom);
+};
+
+/* Entrata nella stanza */
+document.querySelector('#join').onclick = () => {
+  const name =
+    document.querySelector('#name').value.trim() || 'Michele';
+
+  const code =
+    document.querySelector('#code').value.trim().toUpperCase();
+
+  if (!code) {
+    status.textContent = 'Inserisci il codice della stanza.';
+    return;
+  }
+
+  socket.emit('joinRoom', {name,code}, handleRoom);
+};
+
+/* Risposta del server */
+function handleRoom(r) {
+  if (!r.ok) {
+    status.textContent = r.error || 'Impossibile entrare nella stanza.';
+    return;
+  }
+
+  myRole = r.role;
+  roomCode = r.code;
+
+  initPlayers(r.players);
+
+  roleEl.textContent =
+    myRole === 'palma' ? 'Palma' : 'Michele';
+
+  document.querySelector('#code').value = r.code;
+
+  status.textContent =
+    `Stanza ${r.code} creata. ${
+      r.role === 'palma'
+        ? 'Invia il codice a Michele!'
+        : 'Sei entrato!'
+    } In attesa dell’altro giocatore…`;
 }
-function heart(x,y,size=20){ctx.save();ctx.translate(x,y);ctx.scale(size/20,size/20);ctx.fillStyle='#ff4f91';ctx.beginPath();ctx.moveTo(0,7);ctx.bezierCurveTo(-20,-5,-10,-17,0,-8);ctx.bezierCurveTo(10,-17,20,-5,0,7);ctx.fill();ctx.restore();}
-function drawPlayer(p){
-const x=p.x-camera,y=p.y;ctx.fillStyle='#39253f';ctx.beginPath();ctx.ellipse(x+13,y+40,12,3,0,0,7);ctx.fill();
-ctx.fillStyle=p.color;ctx.fillRect(x+4,y+21,18,15);ctx.fillStyle='#ffd6b9';ctx.beginPath();ctx.arc(x+13,y+12,11,0,7);ctx.fill();
-ctx.fillStyle=p.hair;ctx.beginPath();ctx.arc(x+12,y+8,12,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(x+2,y+7,5,12);
-if(p.role==='palma'){ctx.beginPath();ctx.arc(x+4,y+3,6,0,7);ctx.fill();}
-ctx.fillStyle='#38243e';ctx.fillRect(x+9,y+12,2,3);ctx.fillRect(x+16,y+12,2,3);ctx.fillStyle='#fff';ctx.fillRect(x+7,y+35,7,5);ctx.fillRect(x+16,y+35,7,5);
-ctx.fillStyle='#fff4fb';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText(p.name||p.role,x+13,y-7);
+
+/* Connessione */
+socket.on('connect', () => {
+  connected = true;
+});
+
+socket.on('disconnect', () => {
+  connected = false;
+  releaseAllKeys();
+
+  status.textContent =
+    'Connessione persa. Ricarica la pagina quando la rete torna disponibile.';
+});
+
+/* Aggiornamento della stanza */
+socket.on('roomState', d => {
+  if (d.code !== roomCode && roomCode) return;
+
+  roomCode = d.code;
+  initPlayers(d.players);
+
+  if (d.started) {
+    status.textContent =
+      `Stanza ${d.code}: siete connessi! Giocate insieme 💕`;
+  } else if (d.notice) {
+    status.textContent = d.notice;
+  }
+});
+
+/* Aggiornamento del personaggio remoto */
+socket.on('remoteUpdate', d => {
+  for (const role of ['palma','michele']) {
+    if (
+      players[role] &&
+      players[role].id === d.id &&
+      role !== myRole
+    ) {
+      Object.assign(players[role], d);
+    }
+  }
+});
+
+/* Eventi di gioco */
+socket.on('gameEvent', d => {
+  if (d.type === 'heart') {
+    score = Math.max(score, d.score || 0);
+    scoreEl.textContent = score;
+  }
+
+  if (d.type === 'win') {
+    status.textContent =
+      'Avete raggiunto il castello insieme! 💖';
+  }
+
+  if (d.type === 'hurt') {
+    status.textContent = 'Attenzione agli ostacoli!';
+  }
+});
+
+/* Gestione dei pulsanti sul telefono */
+function setButton(id, key) {
+  const el = document.getElementById(id);
+
+  const press = e => {
+    e.preventDefault();
+    keys[key] = true;
+
+    if (el.setPointerCapture && e.pointerId !== undefined) {
+      try {
+        el.setPointerCapture(e.pointerId);
+      } catch (_) {}
+    }
+  };
+
+  const release = e => {
+    e.preventDefault();
+    keys[key] = false;
+  };
+
+  el.addEventListener('pointerdown', press);
+  el.addEventListener('pointerup', release);
+  el.addEventListener('pointercancel', release);
+  el.addEventListener('lostpointercapture', release);
+  el.addEventListener('contextmenu', e => e.preventDefault());
 }
-function draw(){
-const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#9a79cf');g.addColorStop(.55,'#ffb0c9');g.addColorStop(1,'#5c4a91');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-ctx.fillStyle='#ffe5a6';ctx.beginPath();ctx.arc(710-camera*.12,205,48,0,7);ctx.fill();
-ctx.fillStyle='#8671ba';for(let i=0;i<6;i++){let x=i*210-(camera*.22%210);ctx.beginPath();ctx.moveTo(x,360);ctx.lineTo(x+100,190+(i%3)*30);ctx.lineTo(x+220,360);ctx.fill();}
-ctx.fillStyle='#7c76b8';ctx.fillRect(0,355,W,H-355);
-platforms.forEach(p=>{let x=p.x-camera;if(x+p.w<0||x>W)return;ctx.fillStyle='#6e3c68';ctx.fillRect(x,p.y,p.w,p.h);ctx.fillStyle='#6fce91';ctx.fillRect(x,p.y,p.w,8);});
-spikes.forEach(s=>{let x=s.x-camera;ctx.fillStyle='#fff0f5';ctx.strokeStyle='#57345f';for(let i=0;i<s.w;i+=18){ctx.beginPath();ctx.moveTo(x+i,s.y+s.h);ctx.lineTo(x+i+9,s.y);ctx.lineTo(x+i+18,s.y+s.h);ctx.closePath();ctx.fill();ctx.stroke();}});
-hearts.forEach(h=>{if(!h.taken)heart(h.x-camera,h.y+Math.sin((frame+h.x)*.06)*4);});
-enemies.forEach(e=>{let x=e.x-camera;ctx.fillStyle='#63326f';ctx.beginPath();ctx.arc(x+15,e.y+14,15,Math.PI,0);ctx.lineTo(x+30,e.y+25);ctx.lineTo(x,e.y+25);ctx.fill();ctx.fillStyle='white';ctx.fillRect(x+7,e.y+10,5,6);ctx.fillRect(x+19,e.y+10,5,6);});
-let gx=goal.x-camera;ctx.fillStyle='#ffd5ed';ctx.fillRect(gx+12,goal.y+35,48,45);ctx.fillStyle='#ff9bc9';ctx.fillRect(gx,goal.y+20,22,60);ctx.fillRect(gx+48,goal.y+20,22,60);ctx.fillStyle='#b84c93';ctx.fillRect(gx+25,goal.y+50,22,30);heart(gx+35,goal.y+22,18);
-const a=players.palma,b=players.michele;
-ctx.strokeStyle='#4b405b';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(a.x-camera+20,a.y+25);ctx.lineTo(b.x-camera+5,b.y+25);ctx.stroke();ctx.strokeStyle='#e8e1f0';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(a.x-camera+20,a.y+24);ctx.lineTo(b.x-camera+5,b.y+24);ctx.stroke();
-drawPlayer(a);drawPlayer(b);
-if(!myRole){ctx.fillStyle='#251633aa';ctx.fillRect(0,0,W,H);ctx.fillStyle='white';ctx.textAlign='center';ctx.font='bold 26px system-ui';ctx.fillText('Crea o raggiungi una stanza per giocare 💗',W/2,H/2);}
+
+setButton('left', 'left');
+setButton('right', 'right');
+
+/* Salto da pulsante */
+document.querySelector('#jump').addEventListener('pointerdown', e => {
+  e.preventDefault();
+  jump();
+});
+
+/* Tasti della tastiera */
+const jumpKeys = ['arrowup','w',' '];
+const movementKeys = [
+  'arrowleft','arrowright','arrowup',
+  'a','d','w',' '
+];
+
+window.addEventListener('keydown', e => {
+  const k = e.key.toLowerCase();
+
+  if (movementKeys.includes(k)) {
+    e.preventDefault();
+  }
+
+  /* Salta soltanto alla nuova pressione del tasto.
+     Non ripete il salto se il tasto resta premuto. */
+  if (jumpKeys.includes(k) && !keys[k] && !e.repeat) {
+    jump();
+  }
+
+  keys[k] = true;
+});
+
+/* Rilascio dei tasti */
+window.addEventListener('keyup', e => {
+  keys[e.key.toLowerCase()] = false;
+});
+
+/* Evita che un tasto resti bloccato cambiando finestra */
+function releaseAllKeys() {
+  keys = {};
 }
-function loop(){update();draw();requestAnimationFrame(loop)}loop();
+
+window.addEventListener('blur', releaseAllKeys);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) releaseAllKeys();
+});
+
+/* Funzione salto */
+function jump() {
+  if (!myRole || !players[myRole]) return;
+
+  const p = players[myRole];
+
+  if (p.onGround) {
+    p.vy = -12.5;
+    p.onGround = false;
+  }
+}
+
+/* Collisioni tra rettangoli */
+function rect(a, b) {
+  return (
+    a.x < b.x + b.w &&
+    a.x + a.w > b.x &&
+    a.y < b.y + b.h &&
+    a.y + a.h > b.y
+  );
+}
+
+/* Aggiornamento del gioco */
+function update() {
+  frame++;
+
+  if (!myRole || !players[myRole]) return;
+
+  const p = players[myRole];
+
+  const left =
+    keys.left || keys.arrowleft || keys.a;
+
+  const right =
+    keys.right || keys.arrowright || keys.d;
+
+  /* Movimento orizzontale corretto */
+  p.vx = ((right ? 1 : 0) - (left ? 1 : 0)) * 3.2;
+
+  p.x = Math.max(0, p.x + p.vx);
+
+  /* Gravità */
+  const oldY = p.y;
+
+  p.vy += 0.62;
+  p.y += p.vy;
+
+  p.onGround = false;
+
+  /* Atterraggio sulle piattaforme */
+  for (const pl of platforms) {
+    if (
+      p.x + p.w > pl.x &&
+      p.x < pl.x + pl.w &&
+      oldY + p.h <= pl.y + 5 &&
+      p.y + p.h >= pl.y &&
+      p.vy >= 0
+    ) {
+      p.y = pl.y - p.h;
+      p.vy = 0;
+      p.onGround = true;
+    }
+  }
+
+  /* Caduta fuori dal livello */
+  if (p.y > H + 50) {
+    p.x = Math.max(30, p.x - 120);
+    p.y = 350;
+    p.vy = 0;
+    p.onGround = false;
+
+    socket.emit('gameEvent', {type:'hurt'});
+  }
+
+  /* Collisione con le spine */
+  for (const s of spikes) {
+    if (
+      rect(
+        {x:p.x+4,y:p.y+p.h-9,w:p.w-8,h:9},
+        s
+      )
+    ) {
+      p.x = Math.max(30, p.x - 100);
+      p.y = 350;
+      p.vy = 0;
+      p.onGround = false;
+
+      socket.emit('gameEvent', {type:'hurt'});
+      break;
+    }
+  }
+
+  /* Movimento dei nemici e collisioni */
+  for (const e of enemies) {
+    e.x += e.v;
+
+    if (e.x < e.min || e.x > e.max) {
+      e.v *= -1;
+    }
+
+    if (rect(p, {x:e.x,y:e.y,w:30,h:28})) {
+      p.x = Math.max(30, p.x - 100);
+      p.y = 350;
+      p.vy = 0;
+      p.onGround = false;
+
+      socket.emit('gameEvent', {type:'hurt'});
+    }
+  }
+
+  /* Raccolta dei cuori */
+  hearts.forEach(h => {
+    if (
+      !h.taken &&
+      rect(p, {x:h.x-10,y:h.y-10,w:25,h:25})
+    ) {
+      h.taken = true;
+      score++;
+      scoreEl.textContent = score;
+
+      socket.emit('gameEvent', {
+        type:'heart',
+        score
+      });
+    }
+  });
+
+  /* Traguardo */
+  if (rect(p, goal)) {
+    socket.emit('gameEvent', {type:'win'});
+  }
+
+  p.facing = p.vx < 0 ? -1 : 1;
+
+  /* Sincronizza la posizione con il server */
+  if (connected) {
+    socket.emit('playerUpdate', {
+      x:p.x,
+      y:p.y,
+      vx:p.vx,
+      vy:p.vy,
+      facing:p.facing,
+      onGround:p.onGround
+    });
+  }
+
+  /* Telecamera */
+  camera = Math.max(0, Math.min(1400, p.x - 260));
+}
+
+/* Disegno dei cuori */
+function heart(x, y, size = 20) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(size / 20, size / 20);
+  ctx.fillStyle = '#ff4f91';
+
+  ctx.beginPath();
+  ctx.moveTo(0, 7);
+  ctx.bezierCurveTo(-20,-5,-10,-17,0,-8);
+  ctx.bezierCurveTo(10,-17,20,-5,0,7);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+/* Disegno dei personaggi */
+function drawPlayer(p) {
+  const x = p.x - camera;
+  const y = p.y;
+
+  ctx.fillStyle = '#39253f';
+  ctx.beginPath();
+  ctx.ellipse(x+13,y+40,12,3,0,0,7);
+  ctx.fill();
+
+  ctx.fillStyle = p.color;
+  ctx.fillRect(x+4,y+21,18,15);
+
+  ctx.fillStyle = '#ffd6b9';
+  ctx.beginPath();
+  ctx.arc(x+13,y+12,11,0,7);
+  ctx.fill();
+
+  ctx.fillStyle = p.hair;
+  ctx.beginPath();
+  ctx.arc(x+12,y+8,12,Math.PI,Math.PI*2);
+  ctx.fill();
+  ctx.fillRect(x+2,y+7,5,12);
+
+  if (p.role === 'palma') {
+    ctx.beginPath();
+    ctx.arc(x+4,y+3,6,0,7);
+    ctx.fill();
+  }
+
+  ctx.fillStyle = '#38243e';
+  ctx.fillRect(x+9,y+12,2,3);
+  ctx.fillRect(x+16,y+12,2,3);
+
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(x+7,y+35,7,5);
+  ctx.fillRect(x+16,y+35,7,5);
+
+  ctx.fillStyle = '#fff4fb';
+  ctx.font = 'bold 12px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText(p.name || p.role,x+13,y-7);
+}
+
+/* Disegno dello scenario */
+function draw() {
+  const g = ctx.createLinearGradient(0,0,0,H);
+
+  g.addColorStop(0,'#9a79cf');
+  g.addColorStop(.55,'#ffb0c9');
+  g.addColorStop(1,'#5c4a91');
+
+  ctx.fillStyle = g;
+  ctx.fillRect(0,0,W,H);
+
+  /* Sole */
+  ctx.fillStyle = '#ffe5a6';
+  ctx.beginPath();
+  ctx.arc(710-camera*.12,205,48,0,7);
+  ctx.fill();
+
+  /* Montagne */
+  ctx.fillStyle = '#8671ba';
+
+  for (let i=0; i<6; i++) {
+    const x = i*210 - (camera*.22 % 210);
+
+    ctx.beginPath();
+    ctx.moveTo(x,360);
+    ctx.lineTo(x+100,190+(i%3)*30);
+    ctx.lineTo(x+220,360);
+    ctx.fill();
+  }
+
+  ctx.fillStyle = '#7c76b8';
+  ctx.fillRect(0,355,W,H-355);
+
+  /* Piattaforme */
+  platforms.forEach(p => {
+    const x = p.x - camera;
+
+    if (x+p.w < 0 || x > W) return;
+
+    ctx.fillStyle = '#6e3c68';
+    ctx.fillRect(x,p.y,p.w,p.h);
+
+    ctx.fillStyle = '#6fce91';
+    ctx.fillRect(x,p.y,p.w,8);
+  });
+
+  /* Spine */
+  spikes.forEach(s => {
+    const x = s.x - camera;
+
+    ctx.fillStyle = '#fff0f5';
+    ctx.strokeStyle = '#57345f';
+
+    for (let i=0; i<s.w; i+=18) {
+      ctx.beginPath();
+      ctx.moveTo(x+i,s.y+s.h);
+      ctx.lineTo(x+i+9,s.y);
+      ctx.lineTo(x+i+18,s.y+s.h);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+    }
+  });
+
+  /* Cuori */
+  hearts.forEach(h => {
+    if (!h.taken) {
+      heart(
+        h.x-camera,
+        h.y+Math.sin((frame+h.x)*.06)*4
+      );
+    }
+  });
+
+  /* Nemici */
+  enemies.forEach(e => {
+    const x = e.x - camera;
+
+    ctx.fillStyle = '#63326f';
+    ctx.beginPath();
+    ctx.arc(x+15,e.y+14,15,Math.PI,0);
+    ctx.lineTo(x+30,e.y+25);
+    ctx.lineTo(x,e.y+25);
+    ctx.fill();
+
+    ctx.fillStyle = 'white';
+    ctx.fillRect(x+7,e.y+10,5,6);
+    ctx.fillRect(x+19,e.y+10,5,6);
+  });
+
+  /* Castello finale */
+  const gx = goal.x - camera;
+
+  ctx.fillStyle = '#ffd5ed';
+  ctx.fillRect(gx+12,goal.y+35,48,45);
+
+  ctx.fillStyle = '#ff9bc9';
+  ctx.fillRect(gx,goal.y+20,22,60);
+  ctx.fillRect(gx+48,goal.y+20,22,60);
+
+  ctx.fillStyle = '#b84c93';
+  ctx.fillRect(gx+25,goal.y+50,22,30);
+
+  heart(gx+35,goal.y+22,18);
+
+  /* Catena che unisce i personaggi */
+  const a = players.palma;
+  const b = players.michele;
+
+  ctx.strokeStyle = '#4b405b';
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.moveTo(a.x-camera+20,a.y+25);
+  ctx.lineTo(b.x-camera+5,b.y+25);
+  ctx.stroke();
+
+  ctx.strokeStyle = '#e8e1f0';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(a.x-camera+20,a.y+24);
+  ctx.lineTo(b.x-camera+5,b.y+24);
+  ctx.stroke();
+
+  drawPlayer(a);
+  drawPlayer(b);
+
+  /* Schermata iniziale */
+  if (!myRole) {
+    ctx.fillStyle = '#251633aa';
+    ctx.fillRect(0,0,W,H);
+
+    ctx.fillStyle = 'white';
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 26px system-ui';
+
+    ctx.fillText(
+      'Crea o raggiungi una stanza per giocare 💗',
+      W/2,
+      H/2
+    );
+  }
+}
+
+/* Ciclo principale */
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+loop();
+
 })();
-</script></body></html>
+</script>
+</body>
+</html>
